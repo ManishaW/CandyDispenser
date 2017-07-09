@@ -2,12 +2,35 @@
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
+#include <Servo.h>
+
+Servo myservo;  // create servo object to control a servo
+
+int pos = 0;    // variable to store the servo position
+bool doOnce = true;
 void setup() {
   lcd.begin(16, 2);
-  lcd.print("Have some candy!");
+ // lcd.print("Dispensing Candy");
+ 
+  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
 }
 
 void loop() {
-  
+  //servo part
+   if (doOnce){
+    lcd.print("Dispensing Candy");
+   for (pos = 0; pos <= 100; pos += 1) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(1);                       // waits 15ms for the servo to reach the position
+  }
+  for (pos = 100; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos);              // tell servo to go to position in variable 'pos'
+    delay(1);                       // waits 15ms for the servo to reach the position
+  }
+  doOnce = false;
+   }
+  lcd.print("Waiting...");
+ 
 }
 
